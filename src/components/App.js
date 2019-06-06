@@ -13,7 +13,6 @@ class App extends React.Component{
         super(props);
 
         this.state={
-
             questions: [],
             isLoading: true,
             err: '',
@@ -82,12 +81,13 @@ class App extends React.Component{
             toDisplay = <ScoreBoard score={score} maxScore={questions.length} /> 
         }else{
             toDisplay = <QuestionCard 
-            isLoading={isLoading}
-            question={currentQuestion.question}
-            correct_answer={currentQuestion.correct_answer}
-            incorrect_answers={currentQuestion.incorrect_answers}
-            onSelectAnswer={this.nextQuestion}
-        />
+                            key={counter}
+                            isLoading={isLoading}
+                            question={currentQuestion.question}
+                            correct_answer={currentQuestion.correct_answer}
+                            incorrect_answers={currentQuestion.incorrect_answers}
+                            onSelectAnswer={this.nextQuestion}
+                        />
         }
 
         return (

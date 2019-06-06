@@ -5,16 +5,10 @@
     margin: 1rem 0; 
 }
 
-.Answer.correct:active{
+.Answer.correct{
     background: rgb(54, 197, 130);
-    color: white;
 }
 
-.Answer.incorrect:active{
+.Answer.incorrect{
     background: #b94d68;
-    color: white;
-}
-
-.Answer:hover{
-    background: #ffffff36;
 }
