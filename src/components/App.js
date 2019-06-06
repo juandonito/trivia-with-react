@@ -23,10 +23,6 @@ class App extends React.Component{
         }
     }
 
-    replay = () => {
-        
-    }
-
     componentDidMount(){
 
         axios.get('https://opentdb.com/api.php?amount=10')
@@ -83,7 +79,7 @@ class App extends React.Component{
         if(isLoading){
             toDisplay = <Loader/>
         }else if(gameOver){
-            toDisplay = <ScoreBoard score={score} maxScore={questions.length} replay={this.replay}/> 
+            toDisplay = <ScoreBoard score={score} maxScore={questions.length} /> 
         }else{
             toDisplay = <QuestionCard 
             isLoading={isLoading}

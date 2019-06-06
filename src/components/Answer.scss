@@ -2,10 +2,19 @@
     border: 1px solid white;
     border-radius: 4px;
     padding: 1rem;
-    margin: 1rem 0;
+    margin: 1rem 0; 
+}
+
+.Answer.correct:active{
+    background: rgb(54, 197, 130);
+    color: white;
+}
+
+.Answer.incorrect:active{
+    background: #b94d68;
+    color: white;
 }
 
 .Answer:hover{
-    background: white;
-    color: black;
+    background: #ffffff36;
 }
