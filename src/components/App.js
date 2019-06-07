@@ -6,6 +6,7 @@ import axios from 'axios'
 import Loader from './Loader'
 import QuestionCard from './QuestionCard'
 import ScoreBoard from './ScoreBoard'
+import withProgressBar from '../HOC/withProgressBar'
 
 class App extends React.Component{
 
@@ -26,7 +27,6 @@ class App extends React.Component{
 
         axios.get('https://opentdb.com/api.php?amount=10')
             .then(response => {
-                console.log(response.data.results)
                 this.setState({ 
                     questions: response.data.results,
                     isLoading: false
@@ -41,8 +41,6 @@ class App extends React.Component{
     nextQuestion = (answerIsCorrect) => {
 
         const { counter, questions } = this.state;
-        console.log(counter);
-        console.log(questions.length);
 
         if(questions.length > counter+1 ){
             this.setState(prevState => {
@@ -72,6 +70,7 @@ class App extends React.Component{
         } = this.state;
 
         const currentQuestion =  questions[counter];
+        const progress = counter/questions.length;
 
         let toDisplay = '';
 
@@ -80,7 +79,9 @@ class App extends React.Component{
         }else if(gameOver){
             toDisplay = <ScoreBoard score={score} maxScore={questions.length} /> 
         }else{
-            toDisplay = <QuestionCard 
+            const QuestionCardWithProgress = withProgressBar(QuestionCard)
+            toDisplay = <QuestionCardWithProgress 
+                            progress={progress}
                             key={counter}
                             isLoading={isLoading}
                             question={currentQuestion.question}
