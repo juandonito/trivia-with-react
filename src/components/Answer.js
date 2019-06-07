@@ -46,4 +46,5 @@ Answer.propTypes={
     answer: PropTypes.object.isRequired,
     onSelectAnswer: PropTypes.func.isRequired
 }
+
 export default Answer

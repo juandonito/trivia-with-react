@@ -1,7 +1,6 @@
 import './App.scss'
 
 import React from 'react'
-import axios from 'axios'
 
 import { connect } from 'react-redux'
 
@@ -9,9 +8,7 @@ import {
     doGameOver,
     doNextQuestion,
     doSubmitAnswer,
-    doQuestionsLoading,
-    doQuestionsFetchError,
-    doQuestionsFetchSucess
+    doFetchQuestions
 } from '../redux/actions'
 
 import Loader from './Loader'
@@ -26,16 +23,7 @@ class App extends React.Component{
     }
 
     componentDidMount(){
-
-        this.props.loadingQuestions(true);
-        axios.get('https://opentdb.com/api.php?amount=10')
-            .then(response => {
-                this.props.questionsFetchSuccess(response.data.results)
-                this.props.loadingQuestions(false)
-            })
-            .catch(err => {
-                this.props.questionsFetchError(err)
-            })
+        this.props.fetchQuestions()
     }
 
     nextQuestion = (answerIsCorrect) => {
@@ -109,9 +97,7 @@ const mapDispatchToProps = (dispatch) => {
         finishGame: () => dispatch(doGameOver()),
         nextQuestion: () => dispatch(doNextQuestion()),
         submitAnswer: (answerIsCorrect) => dispatch(doSubmitAnswer(answerIsCorrect)),
-        loadingQuestions: (bool) => dispatch(doQuestionsLoading(bool)),
-        questionsFetchError: (err) => dispatch(doQuestionsFetchError(err)),
-        questionsFetchSuccess: (questions) => dispatch(doQuestionsFetchSucess(questions))
+        fetchQuestions: () => dispatch(doFetchQuestions()),
     }
 }
 

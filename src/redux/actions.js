@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import { 
     GAME_OVER,
     QUESTION_NEXT,
@@ -47,4 +49,23 @@ export const doQuestionsFetchSucess = (questions) => {
         isLoading: false,
         questions
     }
+}
+
+export const doFetchQuestions = () => {
+
+    return (dispatch) => {
+
+        dispatch(doQuestionsLoading(true));
+
+        axios.get('https://opentdb.com/api.php?amount=10')
+        .then(response => {
+            dispatch(doQuestionsFetchSucess(response.data.results))
+            dispatch(doQuestionsLoading(false))
+        })
+        .catch(err => {
+            dispatch(doQuestionsFetchError(err))
+        })
+
+    }
+
 }
