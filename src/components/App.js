@@ -3,6 +3,17 @@ import './App.scss'
 import React from 'react'
 import axios from 'axios'
 
+import { connect } from 'react-redux'
+
+import { 
+    doGameOver,
+    doNextQuestion,
+    doSubmitAnswer,
+    doQuestionsLoading,
+    doQuestionsFetchError,
+    doQuestionsFetchSucess
+} from '../redux/actions'
+
 import Loader from './Loader'
 import QuestionCard from './QuestionCard'
 import ScoreBoard from './ScoreBoard'
@@ -12,62 +23,43 @@ class App extends React.Component{
 
     constructor(props){
         super(props);
-
-        this.state={
-            questions: [],
-            isLoading: true,
-            err: '',
-            counter: 0,
-            score: 0,
-            gameOver: false
-        }
     }
 
     componentDidMount(){
 
+        this.props.loadingQuestions(true);
         axios.get('https://opentdb.com/api.php?amount=10')
             .then(response => {
-                this.setState({ 
-                    questions: response.data.results,
-                    isLoading: false
-                })
+                this.props.questionsFetchSuccess(response.data.results)
+                this.props.loadingQuestions(false)
             })
             .catch(err => {
-                console.log(err);
-                this.setState({ err })
+                this.props.questionsFetchError(err)
             })
     }
 
     nextQuestion = (answerIsCorrect) => {
 
-        const { counter, questions } = this.state;
+        const { counter, questions } = this.props;
 
         if(questions.length > counter+1 ){
-            this.setState(prevState => {
-                return { counter: prevState.counter+1 }
-            })
+            this.props.nextQuestion()
         }else{
-            this.setState({
-                gameOver: true
-            })
+            this.props.finishGame()
         }
 
-        if(answerIsCorrect){
-            this.setState(prevState => {
-                return { score: prevState.score+1}
-            })
-        }
+        this.props.submitAnswer(answerIsCorrect)
     }
 
     render(){
 
-        const { 
-            questions, 
-            isLoading, 
-            counter ,
+        const {
+            gameOver,
+            counter,
             score,
-            gameOver
-        } = this.state;
+            isLoading,
+            questions
+        } = this.props;
 
         const currentQuestion =  questions[counter];
         const progress = counter/questions.length;
@@ -101,6 +93,26 @@ class App extends React.Component{
 
 }
 
+const mapStateToProps = (state) => {
+    return {
+        gameOver: state.gameOver,
+        counter: state.counter,
+        score: state.score,
+        isLoading: state.isLoading,
+        err: state.err,
+        questions: state.questions
+    }
+}
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        finishGame: () => dispatch(doGameOver()),
+        nextQuestion: () => dispatch(doNextQuestion()),
+        submitAnswer: (answerIsCorrect) => dispatch(doSubmitAnswer(answerIsCorrect)),
+        loadingQuestions: (bool) => dispatch(doQuestionsLoading(bool)),
+        questionsFetchError: (err) => dispatch(doQuestionsFetchError(err)),
+        questionsFetchSuccess: (questions) => dispatch(doQuestionsFetchSucess(questions))
+    }
+}
 
-export default App
+export default connect(mapStateToProps, mapDispatchToProps)(App)
