@@ -48,10 +48,17 @@ const applyGameOver = (state, action) => {
 }
 
 const applyNextQuestion = (state, action) => {
-    return {
-        ...state,
-        counter: state.counter + 1
+
+    if(state.questions.length > state.counter + 1 ){
+        return {
+            ...state,
+            counter: state.counter + 1
+        }
+    }else{
+        return applyGameOver(state, action)
     }
+    
+    
 }
 
 const applySubmitAnswer = (state, action) => {

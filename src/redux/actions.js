@@ -22,10 +22,12 @@ export const doNextQuestion = () => {
 }
 
 export const doSubmitAnswer = (answerIsCorrect) => {
+
     return {
         type: ANSWER_SUBMIT,
         answerIsCorrect
     }
+    
 }
 
 export const doQuestionsLoading = (bool) => {

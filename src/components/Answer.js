@@ -2,7 +2,7 @@ import './Answer.scss'
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { doSubmitAnswer } from '../redux/actions';
+import { doSubmitAnswer, doNextQuestion } from '../redux/actions';
 
 class Answer extends React.Component{
 
@@ -23,7 +23,6 @@ class Answer extends React.Component{
     handleClick = () => {
         this.revealAnswer();
         setTimeout(() => {
-            this.props.onSelectAnswer();
             this.props.submitAnswer(this.props.answer.correct)
         }, 500)
     }
@@ -47,7 +46,10 @@ class Answer extends React.Component{
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        submitAnswer: (bool) => dispatch(doSubmitAnswer(bool))
+        submitAnswer: (bool) => {
+            dispatch(doSubmitAnswer(bool))
+            dispatch(doNextQuestion());
+        }
     }
 }
 

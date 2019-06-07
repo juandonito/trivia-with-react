@@ -4,12 +4,7 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 
-import { 
-    doGameOver,
-    doNextQuestion,
-    doSubmitAnswer,
-    doFetchQuestions
-} from '../redux/actions'
+import { doFetchQuestions } from '../redux/actions'
 
 import Loader from './Loader'
 import QuestionCard from './QuestionCard'
@@ -20,18 +15,6 @@ class App extends React.Component{
 
     componentDidMount(){
         this.props.fetchQuestions()
-    }
-
-    nextQuestion = () => {
-
-        const { counter, questions } = this.props;
-
-        if(questions.length > counter+1 ){
-            this.props.nextQuestion()
-        }else{
-            this.props.finishGame()
-        }
-
     }
 
     render(){
@@ -50,10 +33,7 @@ class App extends React.Component{
             toDisplay = <ScoreBoard /> 
         }else{
             const QuestionCardWithProgress = withProgressBar(QuestionCard)
-            toDisplay = <QuestionCardWithProgress 
-                            key={counter}
-                            onSelectAnswer={this.nextQuestion}
-                        />
+            toDisplay = <QuestionCardWithProgress key={counter} />
         }
 
         return (
@@ -76,8 +56,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        finishGame: () => dispatch(doGameOver()),
-        nextQuestion: () => dispatch(doNextQuestion()),
         fetchQuestions: () => dispatch(doFetchQuestions()),
     }
 }

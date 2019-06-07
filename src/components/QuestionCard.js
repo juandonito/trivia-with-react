@@ -5,23 +5,19 @@ import React from 'react'
 import Answer from './Answer'
 import { connect } from 'react-redux'
 
-const QuestionCard = ({ question, onSelectAnswer }) => {
+const QuestionCard = ({ question }) => {
 
-    const {
-        correct_answer,
-        incorrect_answers
-    } = question
+    const { correct_answer, incorrect_answers } = question
 
-    let answers = incorrect_answers.map(
-        answer => ({ 
-            content: answer,
-            correct: false
-        }))
+    let answers = incorrect_answers.map(answer => ({ 
+        content: answer,
+        correct: false
+    }))
 
     answers = [...answers, { content: correct_answer, correct: true}];
 
     const answersList = answers.map(
-        (answer, index) => <Answer key={index} answer={answer} onSelectAnswer={onSelectAnswer}/>
+        (answer, index) => <Answer key={index} answer={answer} />
     )
 
     const shuffle = (array) => {
