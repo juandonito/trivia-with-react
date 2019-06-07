@@ -18,15 +18,11 @@ import withProgressBar from '../HOC/withProgressBar'
 
 class App extends React.Component{
 
-    constructor(props){
-        super(props);
-    }
-
     componentDidMount(){
         this.props.fetchQuestions()
     }
 
-    nextQuestion = (answerIsCorrect) => {
+    nextQuestion = () => {
 
         const { counter, questions } = this.props;
 
@@ -36,7 +32,6 @@ class App extends React.Component{
             this.props.finishGame()
         }
 
-        this.props.submitAnswer(answerIsCorrect)
     }
 
     render(){
@@ -44,29 +39,19 @@ class App extends React.Component{
         const {
             gameOver,
             counter,
-            score,
-            isLoading,
-            questions
+            isLoading
         } = this.props;
-
-        const currentQuestion =  questions[counter];
-        const progress = counter/questions.length;
 
         let toDisplay = '';
 
         if(isLoading){
             toDisplay = <Loader/>
         }else if(gameOver){
-            toDisplay = <ScoreBoard score={score} maxScore={questions.length} /> 
+            toDisplay = <ScoreBoard /> 
         }else{
             const QuestionCardWithProgress = withProgressBar(QuestionCard)
             toDisplay = <QuestionCardWithProgress 
-                            progress={progress}
                             key={counter}
-                            isLoading={isLoading}
-                            question={currentQuestion.question}
-                            correct_answer={currentQuestion.correct_answer}
-                            incorrect_answers={currentQuestion.incorrect_answers}
                             onSelectAnswer={this.nextQuestion}
                         />
         }
@@ -85,10 +70,7 @@ const mapStateToProps = (state) => {
     return {
         gameOver: state.gameOver,
         counter: state.counter,
-        score: state.score,
-        isLoading: state.isLoading,
-        err: state.err,
-        questions: state.questions
+        isLoading: state.isLoading
     }
 }
 
@@ -96,7 +78,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         finishGame: () => dispatch(doGameOver()),
         nextQuestion: () => dispatch(doNextQuestion()),
-        submitAnswer: (answerIsCorrect) => dispatch(doSubmitAnswer(answerIsCorrect)),
         fetchQuestions: () => dispatch(doFetchQuestions()),
     }
 }

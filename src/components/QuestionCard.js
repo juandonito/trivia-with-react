@@ -3,8 +3,14 @@ import './QuestionCard.scss'
 import React from 'react'
 
 import Answer from './Answer'
+import { connect } from 'react-redux'
 
-const QuestionCard = ({ question, correct_answer, incorrect_answers, onSelectAnswer }) => {
+const QuestionCard = ({ question, onSelectAnswer }) => {
+
+    const {
+        correct_answer,
+        incorrect_answers
+    } = question
 
     let answers = incorrect_answers.map(
         answer => ({ 
@@ -24,7 +30,7 @@ const QuestionCard = ({ question, correct_answer, incorrect_answers, onSelectAns
 
     return (
         <div className='QuestionCard'>
-            <div className='question' dangerouslySetInnerHTML={{__html: question}}/>
+            <div className='question' dangerouslySetInnerHTML={{__html: question.question}}/>
             <div className='Answers'>
                 {shuffle(answersList)}
             </div>
@@ -32,4 +38,11 @@ const QuestionCard = ({ question, correct_answer, incorrect_answers, onSelectAns
     )
 }
 
-export default QuestionCard
+const mapStateToProps = state => {
+    return {
+        isLoading: state.isLoading,
+        question : state.questions[state.counter]
+    }
+}
+
+export default connect(mapStateToProps)(QuestionCard)

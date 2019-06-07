@@ -1,9 +1,11 @@
 import './Answer.scss'
 
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { doSubmitAnswer } from '../redux/actions';
 
 class Answer extends React.Component{
+
     constructor(props){
         super(props)
         this.state = {
@@ -21,7 +23,8 @@ class Answer extends React.Component{
     handleClick = () => {
         this.revealAnswer();
         setTimeout(() => {
-            this.props.onSelectAnswer(this.props.answer.correct)
+            this.props.onSelectAnswer();
+            this.props.submitAnswer(this.props.answer.correct)
         }, 500)
     }
 
@@ -42,9 +45,10 @@ class Answer extends React.Component{
     }
 }
 
-Answer.propTypes={
-    answer: PropTypes.object.isRequired,
-    onSelectAnswer: PropTypes.func.isRequired
+const mapDispatchToProps = (dispatch) => {
+    return {
+        submitAnswer: (bool) => dispatch(doSubmitAnswer(bool))
+    }
 }
 
-export default Answer
+export default connect(null, mapDispatchToProps)(Answer)

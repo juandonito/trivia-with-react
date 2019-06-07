@@ -2,14 +2,26 @@ import './ScoreBoard.scss'
 
 import React from 'react'
 
-const ScoreBoard = ({ score, maxScore, replay }) => {
+import { connect } from 'react-redux'
+
+const ScoreBoard = ({ score, questions }) => {
+
+    const finalScore = score / questions.length * 100
+    
     return (
         <div className='ScoreBoard'>
             <div className='score'>                
-                <div>{score/maxScore*100}%</div>
+                <div>{finalScore}%</div>
             </div>
         </div>
     )
 }
 
-export default ScoreBoard
+const mapStateToProps = (state) => {
+    return {
+        score: state.score,
+        questions: state.questions
+    }
+}
+
+export default connect(mapStateToProps)(ScoreBoard)
