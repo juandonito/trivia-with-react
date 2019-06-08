@@ -3,11 +3,11 @@ import './QuestionCard.scss'
 import React from 'react'
 
 import AnswerList from './AnswerList'
+import withProgressBar from '../HOC/withProgressBar'
+
 import { connect } from 'react-redux'
 
 const QuestionCard = ({ question }) => {
-
-    console.log(question);
 
     const { correct_answer, incorrect_answers } = question;
 
@@ -26,4 +26,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(QuestionCard)
+export default connect(mapStateToProps)(withProgressBar(QuestionCard))

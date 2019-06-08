@@ -9,7 +9,6 @@ import { doFetchQuestions } from '../redux/actions'
 import Loader from './Loader'
 import QuestionCard from './QuestionCard'
 import ScoreBoard from './ScoreBoard'
-import withProgressBar from '../HOC/withProgressBar'
 
 class App extends React.Component{
 
@@ -19,6 +18,8 @@ class App extends React.Component{
 
     render(){
 
+        console.log(this.props)
+
         const {
             gameOver,
             counter,
@@ -27,13 +28,12 @@ class App extends React.Component{
 
         let toDisplay = '';
 
-        if(isLoading){
-            toDisplay = <Loader/>
-        }else if(gameOver){
+        if(gameOver){
             toDisplay = <ScoreBoard /> 
+        }else if(isLoading){
+            toDisplay = <Loader />
         }else{
-            const QuestionCardWithProgress = withProgressBar(QuestionCard)
-            toDisplay = <QuestionCardWithProgress key={counter} />
+            toDisplay = <QuestionCard key={counter} />
         }
 
         return (

@@ -3,7 +3,8 @@ import Loader from '../components/Loader'
 
 const withLoader = (Component) => {
 
-    return function({ isLoading, ...props }){
+    return ({ isLoading, ...props }) => {
+
         if(!isLoading){
             return <Component {...props}/>
         }
