@@ -1,23 +1,13 @@
 import './AnswerList.scss'
 
 import React from 'react'
+import { connect } from 'react-redux';
+
+import { getAnswers } from '../redux/selector'
 
 import Answer from './Answer'
 
-const AnswerList = ({ incorrect_answers, correct_answer }) => {
-
-    const shuffle = (array) => {
-        return array.sort(() => Math.random() - 0.5);
-    }
-
-    let answers = incorrect_answers.map(answer => ({ 
-        content: answer,
-        correct: false
-    }))
-
-    answers = [...answers, { content: correct_answer, correct: true}];
-
-    shuffle(answers);
+const AnswerList = ({ answers }) => {
 
     const answersList = answers.map(
         (answer, index) => <Answer key={index} answer={answer} />
@@ -30,4 +20,10 @@ const AnswerList = ({ incorrect_answers, correct_answer }) => {
     )
 }
 
-export default AnswerList
+const mapStateToProps = (state) => {
+    return {
+        answers: getAnswers(state)
+    }
+}
+
+export default connect(mapStateToProps)(AnswerList)
