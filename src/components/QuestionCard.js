@@ -2,34 +2,19 @@ import './QuestionCard.scss'
 
 import React from 'react'
 
-import Answer from './Answer'
+import AnswerList from './AnswerList'
 import { connect } from 'react-redux'
 
 const QuestionCard = ({ question }) => {
 
-    const { correct_answer, incorrect_answers } = question
+    console.log(question);
 
-    let answers = incorrect_answers.map(answer => ({ 
-        content: answer,
-        correct: false
-    }))
-
-    answers = [...answers, { content: correct_answer, correct: true}];
-
-    const answersList = answers.map(
-        (answer, index) => <Answer key={index} answer={answer} />
-    )
-
-    const shuffle = (array) => {
-        return array.sort(() => Math.random() - 0.5);
-    }
+    const { correct_answer, incorrect_answers } = question;
 
     return (
         <div className='QuestionCard'>
             <div className='question' dangerouslySetInnerHTML={{__html: question.question}}/>
-            <div className='Answers'>
-                {shuffle(answersList)}
-            </div>
+            <AnswerList correct_answer={correct_answer} incorrect_answers={incorrect_answers} />
         </div>
     )
 }
