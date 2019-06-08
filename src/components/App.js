@@ -6,8 +6,7 @@ import { connect } from 'react-redux'
 
 import { doFetchQuestions } from '../redux/actions'
 
-import Loader from './Loader'
-import QuestionCard from './QuestionCard'
+import QuestionList from './QuestionList'
 import ScoreBoard from './ScoreBoard'
 
 class App extends React.Component{
@@ -18,22 +17,16 @@ class App extends React.Component{
 
     render(){
 
-        console.log(this.props)
-
         const {
-            gameOver,
-            counter,
-            isLoading
+            gameOver
         } = this.props;
 
         let toDisplay = '';
 
         if(gameOver){
             toDisplay = <ScoreBoard /> 
-        }else if(isLoading){
-            toDisplay = <Loader />
         }else{
-            toDisplay = <QuestionCard key={counter} />
+            toDisplay = <QuestionList />
         }
 
         return (
@@ -49,7 +42,6 @@ class App extends React.Component{
 const mapStateToProps = (state) => {
     return {
         gameOver: state.gameOver,
-        counter: state.counter,
         isLoading: state.isLoading
     }
 }

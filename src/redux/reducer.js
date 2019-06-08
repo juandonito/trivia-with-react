@@ -11,7 +11,7 @@ const INITIAL_STATE = {
     gameOver: false,
     counter: 0,
     score: 0,
-    isLoading: true,
+    isLoading: false,
     err: null,
     questions: []
 }
@@ -57,7 +57,6 @@ const applyNextQuestion = (state, action) => {
     }else{
         return applyGameOver(state, action)
     }
-    
     
 }
 

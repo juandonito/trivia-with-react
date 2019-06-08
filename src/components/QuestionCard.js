@@ -5,8 +5,6 @@ import React from 'react'
 import AnswerList from './AnswerList'
 import withProgressBar from '../HOC/withProgressBar'
 
-import { connect } from 'react-redux'
-
 const QuestionCard = ({ question }) => {
 
     const { correct_answer, incorrect_answers } = question;
@@ -19,11 +17,4 @@ const QuestionCard = ({ question }) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        isLoading: state.isLoading,
-        question : state.questions[state.counter]
-    }
-}
-
-export default connect(mapStateToProps)(withProgressBar(QuestionCard))
+export default withProgressBar(QuestionCard)
