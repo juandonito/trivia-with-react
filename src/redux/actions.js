@@ -1,4 +1,4 @@
-import axios from 'axios'
+import triviadb from '../api/triviadb'
 
 import { 
     GAME_OVER,
@@ -53,13 +53,17 @@ export const doQuestionsFetchSucess = (questions) => {
     }
 }
 
-export const doFetchQuestions = () => {
+export const doFetchQuestions = (amount = 10) => {
 
     return (dispatch) => {
 
         dispatch(doQuestionsLoading(true));
 
-        axios.get('https://opentdb.com/api.php?amount=10')
+        triviadb.get('/', {
+            params : {
+                amount
+            }
+        })
         .then(response => {
             dispatch(doQuestionsFetchSucess(response.data.results))
             dispatch(doQuestionsLoading(false))
